@@ -1,0 +1,8 @@
+C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\bin\Debug\Inventory_Management.exe.config
+C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\bin\Debug\Inventory_Management.exe
+C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\bin\Debug\Inventory_Management.pdb
+C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.csproj.AssemblyReference.cache
+C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.csproj.SuggestedBindingRedirects.cache
+C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.csproj.CoreCompileInputs.cache
+C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.exe
+C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.pdb
