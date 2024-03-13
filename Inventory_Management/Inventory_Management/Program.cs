@@ -62,12 +62,9 @@ namespace Inventory_Management
                 Console.WriteLine(actionPrompt);
 
                 userActionBuffer = GetUserAction();
+                if (userActionBuffer == 6) break;
 
-                if (userActionBuffer == 6)
-                {
-                    run = false;
-                    break;
-                }
+
             }
         }
     }
