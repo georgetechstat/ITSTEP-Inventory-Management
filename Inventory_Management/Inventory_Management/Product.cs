@@ -8,17 +8,20 @@ namespace Inventory_Management
 {
     public class Product
     {
-        public Product(string id, string name, double price, int quantity, string category, string manufacturer)
+        public Product(string name, double price, int quantity, string category, string manufacturer)
         {
-            Id = id;
             Name = name;
             Price = price;
             Quantity = quantity;
             Category = category;
             Manufacturer = manufacturer;
+
+            Id++;
+            UId = Id;
         }
 
-        public string Id { get; set; }
+        public static long Id { get; set; }
+        public long UId { get; }
         public string Name { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
