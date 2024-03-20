@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Inventory_Management
 {
     public class InventoryManager
     {
         public List<Product> Products { get; set; }
-        public Stack<Product> RecentProducts { get; set; }
-        public Queue<Product> Orders { get; set; }
         public void AddProduct(Product product)
         {
-
+            Products.Add(product);
         }
         public bool RemoveProduct(string productId)
         {
@@ -21,9 +21,9 @@ namespace Inventory_Management
         }
         public void DisplayInventory()
         {
-
+            Products.ForEach(product => { Console.WriteLine(product.ToString()); });
         }
-        public void ProcessOrder()
+        public void ExportOrder()
         {
 
         }
@@ -37,19 +37,39 @@ namespace Inventory_Management
         }
         public int GetTotalProducts()
         {
-            return 1;
+            return Products.Count;
         }
-        public double GetTotalRevenue()
+        /// <summary>
+        /// Sum up all prices of products.
+        /// Sum = foreach (p in ps) { sum(p.Price * p.Qty) } return sum;
+        /// </summary>
+        /// <returns></returns>
+        public double GetTotalHolding()
         {
-            return 0.1;
+            double totalHolding = 0;
+            foreach (Product p in Products)
+            {
+                totalHolding += p.Price * p.Quantity;
+            }
+            return totalHolding;
         }
         public void SerializeInventory()
         {
+            var serializer = new XmlSerializer(typeof(List<Product>));
 
+            using (var writer = new StreamWriter("Inventory.xml"))
+            {
+                serializer.Serialize(writer, Products);
+            }
         }
         public void DeserializeInventory()
         {
+            var serializer = new XmlSerializer(typeof(List<Product>));
 
+            using (var reader = new StreamReader("Inventory.xml"))
+            {
+                Products = (List<Product>)serializer.Deserialize(reader);
+            }
         }
     }
 }
