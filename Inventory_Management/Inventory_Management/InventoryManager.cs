@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,47 +12,17 @@ namespace Inventory_Management
     public class InventoryManager
     {
         public List<Product> Products { get; set; }
-        public void AddProduct(Product product)
-        {
-            Products.Add(product);
-        }
-        public bool RemoveProduct(string productId)
-        {
-            return false;
-        }
-        public void DisplayInventory()
-        {
-            Products.ForEach(product => { Console.WriteLine(product.ToString()); });
-        }
-        public void ExportOrder()
-        {
+        public List<string> Categories { get; set; }
 
-        }
-        public Product SearchProductByName(string productName)
+        public InventoryManager()
         {
-            return null;
-        }
-        public List<Product> SearchProductByCategory(string category)
-        {
-            return null;
-        }
-        public int GetTotalProducts()
-        {
-            return Products.Count;
-        }
-        /// <summary>
-        /// Sum up all prices of products.
-        /// Sum = foreach (p in ps) { sum(p.Price * p.Qty) } return sum;
-        /// </summary>
-        /// <returns></returns>
-        public double GetTotalHolding()
-        {
-            double totalHolding = 0;
-            foreach (Product p in Products)
+            Products = new List<Product>();
+            Categories = new List<string>()
             {
-                totalHolding += p.Price * p.Quantity;
-            }
-            return totalHolding;
+                "Furniture",
+                "Tool",
+                "Electric"
+            };
         }
         public void SerializeInventory()
         {

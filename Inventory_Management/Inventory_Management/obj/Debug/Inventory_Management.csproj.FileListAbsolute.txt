@@ -6,3 +6,10 @@ C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\I
 C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.csproj.CoreCompileInputs.cache
 C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.exe
 C:\Users\student\Source\Repos\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.pdb
+C:\Users\georg\Source\Repos\georgetechstat\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\bin\Debug\Inventory_Management.exe.config
+C:\Users\georg\Source\Repos\georgetechstat\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\bin\Debug\Inventory_Management.exe
+C:\Users\georg\Source\Repos\georgetechstat\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\bin\Debug\Inventory_Management.pdb
+C:\Users\georg\Source\Repos\georgetechstat\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.csproj.AssemblyReference.cache
+C:\Users\georg\Source\Repos\georgetechstat\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.csproj.CoreCompileInputs.cache
+C:\Users\georg\Source\Repos\georgetechstat\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.exe
+C:\Users\georg\Source\Repos\georgetechstat\ITSTEP-inventory-management\Inventory_Management\Inventory_Management\obj\Debug\Inventory_Management.pdb
