@@ -16,7 +16,7 @@ namespace Inventory_Management
             Category = category;
             Manufacturer = manufacturer;
 
-            Id++;
+            Id += 1;
             UId = Id;
         }
 
@@ -29,7 +29,7 @@ namespace Inventory_Management
         public string Manufacturer { get; set; }
         public override string ToString()
         {
-            return $"ID: {Id}, Name: {Name}, Price: {Price}$, Quantity: {Quantity}, Category: {Category}, Manufacturer: {Manufacturer}";
+            return $"ID: {UId}, Name: {Name}, Price: {Price}$, Quantity: {Quantity}, Category: {Category}, Manufacturer: {Manufacturer}";
         }
     }
 }

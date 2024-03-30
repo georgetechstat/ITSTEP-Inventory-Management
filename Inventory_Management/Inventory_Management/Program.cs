@@ -31,13 +31,19 @@ namespace Inventory_Management
                 return GetUserAction(lower, upper);
             }
         }
+        public static long ID_Input()
+        {
+            long id = long.Parse(Console.ReadLine());
+            return id;
+        }
         public static void PrintDataOnFilters(List<Product> current, List<string> filters)
         {
-            Console.Write("Showing products with the filter(s):");
+            Console.Write("Showing products with the filter(s):\n");
             foreach (string filter in filters)
             {
                 Console.Write($"{filter}\n");
             }
+            Console.Write('\n');
 
             foreach (Product prod in current)
             {
@@ -55,18 +61,20 @@ namespace Inventory_Management
                 "3. Export the order\n" +
                 "4. Search product\n" +
                 "5. View inventory statistics\n" +
-                "6. Exit";
+                "6. Update a product\n" +
+                "7. Exit";
 
             int UserAction = 0;
             bool run = true;
+            bool Task_Search = false;
 
             // main loop
             while (run)
             {
                 Console.WriteLine(actionPrompt);
-                UserAction = GetUserAction(1, 6);
+                UserAction = GetUserAction(1, 7);
 
-                if (UserAction == 6)
+                if (UserAction == 7)
                 {
                     run = false;
                     break;
@@ -74,10 +82,35 @@ namespace Inventory_Management
                 else if (UserAction == 1)
                 {
                     // Add a product
+                    Console.Write("Enter the product's name: ");
+                    string prodname = Console.ReadLine();
+
+                    Console.Write("Enter the product's price: ");
+                    double prodprice = double.Parse(Console.ReadLine());
+
+                    Console.Write("Enter the product's quantity: ");
+                    int prodqty = GetUserAction(0, int.MaxValue);
+
+                    Console.Write("Enter one of the categories: \n");
+                    for (int i = 0; i < inventoryManager.Categories.Count; i++)
+                    {
+                        Console.Write($"{i + 1}. {inventoryManager.Categories[i]}\n");
+                    }
+
+                    string prodcat =  inventoryManager.Categories[GetUserAction(0, inventoryManager.Categories.Count) - 1];
+
+                    Console.Write("Enter product manufacturer: ");
+                    string prodman = Console.ReadLine();
+
+                    inventoryManager.AddProduct(prodname, prodprice, prodqty, prodcat, prodman);
                 }
                 else if (UserAction == 2)
                 {
                     // Remove a product
+                    Console.Write("Enter the product's ID: ");
+                    long prodid = ID_Input();
+
+                    inventoryManager.RemoveProduct(prodid);
                 }
                 else if (UserAction == 3)
                 {
@@ -86,7 +119,7 @@ namespace Inventory_Management
                 else if (UserAction == 4)
                 {
                     // Search Product
-                    bool Task_Search = true;
+                    Task_Search = true;
                     List<string> Filters = new List<string>();
                     List<Product> current = inventoryManager.Products;
 
@@ -98,14 +131,15 @@ namespace Inventory_Management
                             "3. Product Manufacturer\n" +
                             "4. Product Quantity\n" +
                             "5. Product Price\n" +
-                            "6. Exit\n" +
+                            "6. Product ID\n" +
+                            "7. Exit\n" +
                             "Your Prompt: ");
 
-                        UserAction = GetUserAction(1, 6);
+                        UserAction = GetUserAction(1, 7);
 
                         switch (UserAction)
                         {
-                            case 6:
+                            case 7:
                                 Task_Search = false;
                                 break;
                             case 1:
@@ -116,16 +150,7 @@ namespace Inventory_Management
                                 current = current.Where(p => p.Name == prodname).ToList();
                                 Filters.Add($"Name: {prodname}");
 
-                                Console.Write("Showing products with the filter(s):");
-                                foreach (string filter in Filters)
-                                {
-                                    Console.Write($"{filter}\n");
-                                }
-
-                                foreach (Product prod in current)
-                                {
-                                    Console.Write(prod.ToString());
-                                }
+                                PrintDataOnFilters(current, Filters);
                                 break;
                             case 2:
                                 // by category
@@ -135,16 +160,7 @@ namespace Inventory_Management
                                 current = current.Where(p => p.Category == prodcategory).ToList();
                                 Filters.Add($"Category: {prodcategory}");
 
-                                Console.Write("Showing products with the filter(s):");
-                                foreach (string filter in Filters)
-                                {
-                                    Console.Write($"{filter}\n");
-                                }
-
-                                foreach (Product prod in current)
-                                {
-                                    Console.Write(prod.ToString());
-                                }
+                                PrintDataOnFilters(current, Filters);
                                 break;
                             case 3:
                                 // by manufacturer
@@ -154,16 +170,7 @@ namespace Inventory_Management
                                 current = current.Where(p => p.Manufacturer == prodmanufacturer).ToList();
                                 Filters.Add($"Manufacturer: {prodmanufacturer}");
 
-                                Console.Write("Showing products with the filter(s):");
-                                foreach (string filter in Filters)
-                                {
-                                    Console.Write($"{filter}\n");
-                                }
-
-                                foreach (Product prod in current)
-                                {
-                                    Console.Write(prod.ToString());
-                                }
+                                PrintDataOnFilters(current, Filters);
                                 break;
                             case 4:
                                 // by qty
@@ -173,16 +180,7 @@ namespace Inventory_Management
                                 current = current.Where(p => p.Quantity == prodqty).ToList();
                                 Filters.Add($"Quantity: {prodqty}");
 
-                                Console.Write("Showing products with the filter(s):");
-                                foreach (string filter in Filters)
-                                {
-                                    Console.Write($"{filter}\n");
-                                }
-
-                                foreach (Product prod in current)
-                                {
-                                    Console.Write(prod.ToString());
-                                }
+                                PrintDataOnFilters(current, Filters);
                                 break;
                             case 5:
                                 // by price
@@ -192,16 +190,17 @@ namespace Inventory_Management
                                 current = current.Where(p => p.Price == prodprice).ToList();
                                 Filters.Add($"Price: {prodprice}");
 
-                                Console.Write("Showing products with the filter(s):");
-                                foreach (string filter in Filters)
-                                {
-                                    Console.Write($"{filter}\n");
-                                }
+                                PrintDataOnFilters(current, Filters);
+                                break;
+                            case 6:
+                                // by id
+                                Console.Write("Enter the product's ID: ");
+                                long id = ID_Input();
 
-                                foreach (Product prod in current)
-                                {
-                                    Console.Write(prod.ToString());
-                                }
+                                current = current.Where(p => p.UId == id).ToList();
+                                Filters.Add($"ID: {id}");
+
+                                PrintDataOnFilters(current, Filters);
                                 break;
                         }
                     }
@@ -209,6 +208,15 @@ namespace Inventory_Management
                 else if (UserAction == 5)
                 {
                     // View inventory statistics
+
+                    // TEMPORARY FUNCTIONALITY: LIST PRODUCTS.
+                    // TO BE: FUNCTIONAL STATISTICAL ANALYSIS TOOL
+
+                    inventoryManager.RawList();
+                }
+                else if (UserAction == 6)
+                {
+                    // Update a product
                 }
             }
         }

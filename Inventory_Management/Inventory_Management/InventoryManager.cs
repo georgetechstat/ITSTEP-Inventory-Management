@@ -24,6 +24,43 @@ namespace Inventory_Management
                 "Electric"
             };
         }
+        public void AddProduct(string name, double price, int quantity, string category, string manufacturer)
+        {
+            if (Products.Exists(p => p.Name == name && p.Manufacturer == manufacturer && p.Category == category))
+            {
+                Product p = Products.Find(x => x.Name == name && x.Manufacturer == manufacturer && x.Category == category);
+                p.Quantity += quantity;
+
+                Console.WriteLine($"Product {p.Name} already in inventory, adding to the quantity...");
+                Console.WriteLine($"Updated: {p}");
+            }
+            else
+            {
+                Product newprod = new Product(name, price, quantity, category, manufacturer);
+                Products.Add(newprod);
+                Console.WriteLine("Product successfully added.");
+            }
+        }
+        public void RemoveProduct(long productID)
+        {
+            Product delisted = Products.Find(p => p.UId == productID);
+            if (delisted == null)
+            {
+                Console.WriteLine($"No product matching the id: {productID}");
+            }
+            else
+            {
+                Products.Remove(delisted);
+                Console.WriteLine($"Product {delisted.Name} successfully removed.");
+            }
+        }
+        public void RawList()
+        {
+            foreach (Product p in Products)
+            {
+                Console.WriteLine(p);
+            }
+        }
         public void SerializeInventory()
         {
             var serializer = new XmlSerializer(typeof(List<Product>));
