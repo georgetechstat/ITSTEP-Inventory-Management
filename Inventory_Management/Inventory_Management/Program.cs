@@ -58,23 +58,25 @@ namespace Inventory_Management
                 "Select an operation:\n" +
                 "1. Add a product\n" +
                 "2. Remove a product\n" +
-                "3. Export the order\n" +
-                "4. Search product\n" +
-                "5. View inventory statistics\n" +
-                "6. Update a product\n" +
-                "7. Exit";
+                "3. Search product\n" +
+                "4. View inventory statistics\n" +
+                "5. Update a product\n" +
+                "6. Exit";
 
             int UserAction = 0;
+            int update_path = -1;
+            int analysis_cmd = 0;
             bool run = true;
             bool Task_Search = false;
+            bool update_process = false;
 
             // main loop
             while (run)
             {
                 Console.WriteLine(actionPrompt);
-                UserAction = GetUserAction(1, 7);
+                UserAction = GetUserAction(1, 6);
 
-                if (UserAction == 7)
+                if (UserAction == 6)
                 {
                     run = false;
                     break;
@@ -113,10 +115,6 @@ namespace Inventory_Management
                     inventoryManager.RemoveProduct(prodid);
                 }
                 else if (UserAction == 3)
-                {
-                    // Export the order
-                }
-                else if (UserAction == 4)
                 {
                     // Search Product
                     Task_Search = true;
@@ -205,18 +203,105 @@ namespace Inventory_Management
                         }
                     }
                 }
-                else if (UserAction == 5)
+                else if (UserAction == 4)
                 {
                     // View inventory statistics
 
                     // TEMPORARY FUNCTIONALITY: LIST PRODUCTS.
                     // TO BE: FUNCTIONAL STATISTICAL ANALYSIS TOOL
 
-                    inventoryManager.RawList();
+                    Console.Write("Select analysis function:\n" +
+                        "1. List all products\n" +
+                        "2. Get Total holding\n" +
+                        "3. Get Average Product value\n" +
+                        "4. List all products in range of your price\n" +
+                        "5. Get Minimal Holding.\n" +
+                        "6. Exit\n");
+
+                    analysis_cmd = GetUserAction(1, 6);
+
+                    switch (analysis_cmd)
+                    {
+                        case 6:
+                            break;
+                        case 1:
+                            Console.WriteLine("Listing all products.");
+                            inventoryManager.RawList();
+                            break;
+                        case 2:
+                            Console.WriteLine("Fetching Total Holding..");
+                            Console.WriteLine($"TOTAL: {inventoryManager.GetTotalHolding()}");
+                            break;
+                    }
                 }
-                else if (UserAction == 6)
+                else if (UserAction == 5)
                 {
                     // Update a product
+                    update_process = true;
+
+                    Console.Write("Enter the product's ID: ");
+                    long prodid = ID_Input();
+
+                    Product prod = inventoryManager.Products.Find(p => p.UId == prodid);
+
+                    if (prod == null)
+                    {
+                        Console.WriteLine($"Product not found with ID: {prodid}");
+                        update_process = false;
+                    }
+
+                    while (update_process)
+                    {
+                        Console.Write($"Current product info:\n{prod}\n");
+
+                        Console.WriteLine($"Update the product's\n" +
+                            $"1. Name\n" +
+                            $"2. Price\n" +
+                            $"3. Quantity\n" +
+                            $"4. Category\n" +
+                            $"5. Manufacturer\n" +
+                            $"6. Go Back\n");
+                        
+                        Console.Write("Your Prompt: ");
+                        update_path = GetUserAction(1, 6);
+
+                        switch (update_path)
+                        {
+                            case 6:
+                                update_process = false;
+                                break;
+                            case 1:
+                                Console.Write("Enter a new product name: ");
+                                prod.Name = Console.ReadLine();
+                                break;
+                            case 2:
+                                Console.Write("Enter the product's new price: ");
+                                prod.Price = double.Parse(Console.ReadLine());
+                                break;
+                            case 3:
+                                Console.Write("Enter the product's new quantity: ");
+                                prod.Quantity = GetUserAction(0, int.MaxValue);
+                                break;
+                            case 4:
+                                Console.WriteLine("Select the product's new category:");
+                                for (int i = 0; i < inventoryManager.Categories.Count; i++)
+                                {
+                                    Console.Write($"{i+1}. {inventoryManager.Categories[i]}\n");
+                                }
+
+                                Console.Write("Your Prompt: ");
+                                int selectedCategory = GetUserAction(1, inventoryManager.Categories.Count);
+
+                                prod.Category = inventoryManager.Categories[selectedCategory - 1];
+                                break;
+                            case 5:
+                                Console.WriteLine("Enter the product's new manufacturer: ");
+                                string prodmanufacturer = Console.ReadLine();
+
+                                prod.Manufacturer = prodmanufacturer;
+                                break;
+                        }
+                    }
                 }
             }
         }

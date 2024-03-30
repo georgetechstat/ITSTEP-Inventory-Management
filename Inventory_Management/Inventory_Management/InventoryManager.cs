@@ -41,6 +41,24 @@ namespace Inventory_Management
                 Console.WriteLine("Product successfully added.");
             }
         }
+        public double GetTotalHolding()
+        {
+            double totalHolding = 0;
+            foreach (Product p in Products)
+            {
+                totalHolding += p.Price * p.Quantity;
+            }
+            return totalHolding;
+        }
+        public double GetMinimalHolding()
+        {
+            double minimalHolding = 0;
+            foreach (Product p in Products)
+            {
+                minimalHolding += p.Price;
+            }
+            return minimalHolding;
+        }
         public void RemoveProduct(long productID)
         {
             Product delisted = Products.Find(p => p.UId == productID);
