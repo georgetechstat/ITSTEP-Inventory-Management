@@ -35,11 +35,17 @@ namespace Inventory_Management
                 return GetUserAction(lower, upper);
             }
         }
+        /// <summary>
+        /// Shorthand for getting ID input from the user
+        /// </summary>
         public static long ID_Input()
         {
             long id = long.Parse(Console.ReadLine());
             return id;
         }
+        /// <summary>
+        /// Only show the products matching the filters.
+        /// </summary>
         public static void PrintDataOnFilters(List<Product> current, List<string> filters)
         {
             Console.Write("Showing products with the filter(s):\n");
@@ -67,11 +73,17 @@ namespace Inventory_Management
                 "5. Update a product\n" +
                 "6. Exit";
 
+            // Main buffer
             int UserAction = 0;
+            // User selection for updating
             int update_path = -1;
+            // User selection for analysing data
             int analysis_cmd = 0;
+            // Main loop condition
             bool run = true;
+            // Task loop switch
             bool Task_Search = false;
+            // Update process switch
             bool update_process = false;
 
             // main loop
@@ -210,11 +222,6 @@ namespace Inventory_Management
                 }
                 else if (UserAction == 4)
                 {
-                    // View inventory statistics
-
-                    // TEMPORARY FUNCTIONALITY: LIST PRODUCTS.
-                    // TO BE: FUNCTIONAL STATISTICAL ANALYSIS TOOL
-
                     Console.Write("\nSelect analysis function:\n" +
                         "1. List all products\n" +
                         "2. Get Total holding\n" +
@@ -225,10 +232,9 @@ namespace Inventory_Management
 
                     analysis_cmd = GetUserAction(1, 6, true);
 
+                    // Case 6 not included as switch case will exit implicitly
                     switch (analysis_cmd)
                     {
-                        case 6:
-                            break;
                         case 1:
                             Console.WriteLine("Listing all products.");
                             inventoryManager.RawList();

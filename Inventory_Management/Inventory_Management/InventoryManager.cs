@@ -12,6 +12,7 @@ namespace Inventory_Management
     public class InventoryManager
     {
         public List<Product> Products { get; set; }
+        // Preset categories for different product types
         public List<string> Categories { get; set; }
 
         public InventoryManager()
@@ -24,6 +25,9 @@ namespace Inventory_Management
                 "Electric"
             };
         }
+        /// <summary>
+        /// Display the product if the product is within (range) amount of (val).
+        /// </summary>
         public void RangeList(double val, double range)
         {
             double lower = val - range;
@@ -37,22 +41,27 @@ namespace Inventory_Management
                 }
             }
         }
+        /// <summary>
+        /// Analytic function for average value and standard deviation.
+        /// </summary>
+        /// <returns>double[2] { <Average> , <Deviation> }</returns>
         public double[] AverageProductValue()
         {
             double average = GetMinimalHolding() / Products.Count;
-            double SUMMATION = 0;
+            double DEVIATION = 0;
 
             foreach (Product product in Products)
             {
-                SUMMATION += Math.Pow(product.Price - average, 2);
+                DEVIATION += Math.Pow(product.Price - average, 2);
             }
 
-            SUMMATION = Math.Sqrt(SUMMATION / Products.Count);
+            DEVIATION = Math.Sqrt(DEVIATION / Products.Count);
 
-            return new double[2] { average, SUMMATION };
+            return new double[2] { average, DEVIATION };
         }
         public void AddProduct(string name, double price, int quantity, string category, string manufacturer)
         {
+            // If product entry already exists in the database, implicitly add the quantity
             if (Products.Exists(p => p.Name == name && p.Manufacturer == manufacturer && p.Category == category))
             {
                 Product p = Products.Find(x => x.Name == name && x.Manufacturer == manufacturer && x.Category == category);
@@ -63,11 +72,15 @@ namespace Inventory_Management
             }
             else
             {
+                // Create new product entry
                 Product newprod = new Product(name, price, quantity, category, manufacturer);
                 Products.Add(newprod);
                 Console.WriteLine("Product successfully added.\n");
             }
         }
+        /// <summary>
+        /// Get the net value of the products
+        /// </summary>
         public double GetTotalHolding()
         {
             double totalHolding = 0;
@@ -77,6 +90,9 @@ namespace Inventory_Management
             }
             return totalHolding;
         }
+        /// <summary>
+        /// Get the value which represents the lowest possible net value without removing products
+        /// </summary>
         public double GetMinimalHolding()
         {
             double minimalHolding = 0;
@@ -86,6 +102,9 @@ namespace Inventory_Management
             }
             return minimalHolding;
         }
+        /// <summary>
+        /// Remove product based on ID
+        /// </summary>
         public void RemoveProduct(long productID)
         {
             Product delisted = Products.Find(p => p.UId == productID);
@@ -99,6 +118,9 @@ namespace Inventory_Management
                 Console.WriteLine($"Product {delisted.Name} successfully removed.");
             }
         }
+        /// <summary>
+        /// List all products
+        /// </summary>
         public void RawList()
         {
             foreach (Product p in Products)
@@ -106,6 +128,9 @@ namespace Inventory_Management
                 Console.WriteLine(p);
             }
         }
+        /// <summary>
+        /// Save data to Database
+        /// </summary>
         public void SerializeInventory()
         {
             string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Inventory.xml");
@@ -117,6 +142,9 @@ namespace Inventory_Management
                 serializer.Serialize(writer, Products);
             }
         }
+        /// <summary>
+        /// Load data from Database
+        /// </summary>
         public void DeserializeInventory()
         {
             string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Inventory.xml");
