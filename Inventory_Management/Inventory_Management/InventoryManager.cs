@@ -16,13 +16,40 @@ namespace Inventory_Management
 
         public InventoryManager()
         {
-            Products = new List<Product>();
+            DeserializeInventory();
             Categories = new List<string>()
             {
                 "Furniture",
                 "Tool",
                 "Electric"
             };
+        }
+        public void RangeList(double val, double range)
+        {
+            double lower = val - range;
+            double higher = val + range;
+
+            foreach (Product product in Products)
+            {
+                if (product.Price >= lower && product.Price <= higher)
+                {
+                    Console.WriteLine(product);
+                }
+            }
+        }
+        public double[] AverageProductValue()
+        {
+            double average = GetMinimalHolding() / Products.Count;
+            double SUMMATION = 0;
+
+            foreach (Product product in Products)
+            {
+                SUMMATION += Math.Pow(product.Price - average, 2);
+            }
+
+            SUMMATION = Math.Sqrt(SUMMATION / Products.Count);
+
+            return new double[2] { average, SUMMATION };
         }
         public void AddProduct(string name, double price, int quantity, string category, string manufacturer)
         {
@@ -38,7 +65,7 @@ namespace Inventory_Management
             {
                 Product newprod = new Product(name, price, quantity, category, manufacturer);
                 Products.Add(newprod);
-                Console.WriteLine("Product successfully added.");
+                Console.WriteLine("Product successfully added.\n");
             }
         }
         public double GetTotalHolding()
@@ -81,20 +108,31 @@ namespace Inventory_Management
         }
         public void SerializeInventory()
         {
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Inventory.xml");
+
             var serializer = new XmlSerializer(typeof(List<Product>));
 
-            using (var writer = new StreamWriter("Inventory.xml"))
+            using (var writer = new StreamWriter(path))
             {
                 serializer.Serialize(writer, Products);
             }
         }
         public void DeserializeInventory()
         {
-            var serializer = new XmlSerializer(typeof(List<Product>));
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Inventory.xml");
 
-            using (var reader = new StreamReader("Inventory.xml"))
+            if (!File.Exists(path))
             {
-                Products = (List<Product>)serializer.Deserialize(reader);
+                Products = new List<Product>();
+            }
+            else
+            {
+                var serializer = new XmlSerializer(typeof(List<Product>));
+
+                using (var reader = new StreamReader(path))
+                {
+                    Products = (List<Product>)serializer.Deserialize(reader);
+                }
             }
         }
     }

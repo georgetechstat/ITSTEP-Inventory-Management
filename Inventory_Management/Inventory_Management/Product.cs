@@ -8,6 +8,7 @@ namespace Inventory_Management
 {
     public class Product
     {
+        public Product() { }
         public Product(string name, double price, int quantity, string category, string manufacturer)
         {
             Name = name;

@@ -11,8 +11,12 @@ namespace Inventory_Management
         /// <summary>
         /// Recursive function for getting user input in range of (inclusive) lower and upper
         /// </summary>
-        public static int GetUserAction(int lower, int upper)
+        public static int GetUserAction(int lower, int upper, bool prompt = false)
         {
+            if (prompt)
+            {
+                Console.Write("Your Prompt: ");
+            }
             int choice = int.Parse(Console.ReadLine());
             bool pass = true;
 
@@ -47,7 +51,7 @@ namespace Inventory_Management
 
             foreach (Product prod in current)
             {
-                Console.Write(prod.ToString());
+                Console.WriteLine(prod.ToString());
             }
         }
         static void Main(string[] args)
@@ -74,11 +78,12 @@ namespace Inventory_Management
             while (run)
             {
                 Console.WriteLine(actionPrompt);
-                UserAction = GetUserAction(1, 6);
+                UserAction = GetUserAction(1, 6, true);
 
                 if (UserAction == 6)
                 {
                     run = false;
+                    inventoryManager.SerializeInventory();
                     break;
                 }
                 else if (UserAction == 1)
@@ -210,7 +215,7 @@ namespace Inventory_Management
                     // TEMPORARY FUNCTIONALITY: LIST PRODUCTS.
                     // TO BE: FUNCTIONAL STATISTICAL ANALYSIS TOOL
 
-                    Console.Write("Select analysis function:\n" +
+                    Console.Write("\nSelect analysis function:\n" +
                         "1. List all products\n" +
                         "2. Get Total holding\n" +
                         "3. Get Average Product value\n" +
@@ -218,7 +223,7 @@ namespace Inventory_Management
                         "5. Get Minimal Holding.\n" +
                         "6. Exit\n");
 
-                    analysis_cmd = GetUserAction(1, 6);
+                    analysis_cmd = GetUserAction(1, 6, true);
 
                     switch (analysis_cmd)
                     {
@@ -230,7 +235,25 @@ namespace Inventory_Management
                             break;
                         case 2:
                             Console.WriteLine("Fetching Total Holding..");
-                            Console.WriteLine($"TOTAL: {inventoryManager.GetTotalHolding()}");
+                            Console.WriteLine($"TOTAL: {inventoryManager.GetTotalHolding()}$");
+                            break;
+                        case 3:
+                            double[] stats = inventoryManager.AverageProductValue();
+                            Console.WriteLine($"AVERAGE PRODUCT VALUE: {stats[0]}$\n" +
+                                $"STANDARD DEVIATION: {stats[1]}\n");
+                            break;
+                        case 4:
+                            Console.Write("Enter your price: ");
+                            double val = double.Parse(Console.ReadLine());
+
+                            Console.Write("Enter your range: ");
+                            double range = double.Parse(Console.ReadLine());
+
+                            Console.WriteLine($"Listing products with price of {val}$ with range {range}$");
+                            inventoryManager.RangeList(val, range);
+                            break;
+                        case 5:
+                            Console.WriteLine($"MINIMAL INVENTORY HOLDING: {inventoryManager.GetMinimalHolding()}$\n");
                             break;
                     }
                 }
